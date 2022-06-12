@@ -75,7 +75,7 @@ class FixtureController extends Controller
             return response()->json(['message' => 'At least 2 teams needed to build fixture']);
         }
         $fixture = $this->fixtureService->prepare($teams);
-        $this->fixtureRepository->store($fixture);
+        $this->fixtureRepository->storeArray($fixture);
 
         return response()->json(['message' => 'Fixture prepared']);
     }

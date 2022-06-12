@@ -61,7 +61,7 @@ class FixtureRepository implements FixtureInterface
      * @param array $fixture
      * @return void
      */
-    public function store(array $fixture): void
+    public function storeArray(array $fixture): void
     {
         foreach ($fixture as $match) {
             foreach ($match as $game) {

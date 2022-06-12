@@ -33,7 +33,7 @@ interface FixtureInterface extends BaseInterface
      * @param array $fixture
      * @return void
      */
-    public function store(array $fixture): void;
+    public function storeArray(array $fixture): void;
 
     /**
      * @param Fixture $fixture

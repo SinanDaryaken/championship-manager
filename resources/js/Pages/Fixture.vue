@@ -1,5 +1,5 @@
 <template>
-    <div class="row m-auto mt-5">
+    <div class="row mt-5">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-3" v-for="(fixture, week) in fixtures">
@@ -12,7 +12,7 @@
                         <tbody>
                         <tr v-for="item in fixture">
                             <td class="d-flex justify-content-between">
-                                <span>{{ item.number_of_week }}</span>
+                                <span>Week {{ item.number_of_week }}</span>
                                 <span>{{ item.home_team }}</span>
                                 <span>{{ item.home_team_score + ' - ' + item.away_team_score }}</span>
                                 <span>{{ item.away_team }}</span>
@@ -20,11 +20,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    <router-link :to="{name: 'game'}" class="btn btn-outline-primary">
-                        Start Simulation
-                    </router-link>
                 </div>
             </div>
+            <router-link :to="{name: 'game'}" class="btn btn-outline-primary">
+                Start Simulation
+            </router-link>
         </div>
     </div>
 </template>

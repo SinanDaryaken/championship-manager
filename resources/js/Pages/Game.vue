@@ -32,12 +32,13 @@
                             <table class="table">
                                 <thead class="table-dark">
                                 <tr>
-                                    <td>Fixture</td>
+                                    <td>Fixtures</td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="item in fixture">
                                     <td class="d-flex justify-content-between">
+                                        <span>Week {{ item.number_of_week }}</span>
                                         <span>{{ item.home_team }}</span>
                                         <span>{{ item.home_team_score + ' - ' + item.away_team_score }}</span>
                                         <span>{{ item.away_team }}</span>
@@ -66,7 +67,7 @@
             </div>
             <hr>
         </div>
-        <div class="col-lg-12 d-flex justify-content-around">
+        <div class="d-flex justify-content-evenly">
             <button class="btn btn-primary" @click="completeGame" :disabled="week >= weekCount">Complete Game</button>
             <button class="btn btn-primary" @click="playGame" :disabled="week >= weekCount">Play</button>
             <button class="btn btn-danger" @click="refresh">Restart</button>
@@ -134,7 +135,7 @@ export default {
                     this.fetchTeams();
                     this.fetchFixtures();
 
-                    if (this.count === this.totalWeek) {
+                    if (this.count > this.totalWeek) {
                         this.predictions = {};
                     } else if (this.count >= this.totalWeek - 2) {
                         this.predict();
