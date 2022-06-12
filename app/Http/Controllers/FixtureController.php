@@ -104,7 +104,7 @@ class FixtureController extends Controller
         $this->fixtureRepository->destroyAll();
         $this->teamRepository->reset();
         $fixture = $this->fixtureService->prepare($teams);
-        $this->fixtureRepository->store($fixture);
+        $this->fixtureRepository->storeArray($fixture);
 
         return response()->json(['message' => 'Fixture refreshed']);
     }
