@@ -80,7 +80,7 @@ class GameService
                 $result[] = [
                     'name' => $team->name,
                     'points' => $team->points,
-                    'percentage' => '-',
+                    'percentage' => 'X',
                 ];
             } else {
                 $result[] = [

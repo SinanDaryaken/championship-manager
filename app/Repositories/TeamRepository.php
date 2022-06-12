@@ -33,7 +33,7 @@ class TeamRepository implements TeamInterface
      */
     public function reset(): void
     {
-        $this->model->query()->update(['won' => 0, 'draw' => 0, 'lost' => 0, 'goals_for' => 0, 'goals_against' => 0]);
+        $this->model->query()->update(['points' => 0, 'won' => 0, 'draw' => 0, 'lost' => 0, 'goals_for' => 0, 'goals_against' => 0]);
     }
 
     /**

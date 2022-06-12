@@ -13,6 +13,7 @@ Route::controller(TeamController::class)->prefix('teams')->group(function () {
 Route::apiResource('fixtures', FixtureController::class)->only('update');;
 Route::controller(FixtureController::class)->prefix('fixtures')->group(function () {
     Route::get('fetch-all', 'fetchAll');
+    Route::get('fetch-counted-fixtures-week', 'fetchCountedFixturesWeek');
     Route::get('fetch-by-week/{number_of_week}', 'fetchByWeek');
     Route::get('fetch-group-by-week', 'fetchGroupByWeek');
     Route::get('prepare', 'prepare');

@@ -12,7 +12,7 @@
                         <tbody>
                         <tr v-for="item in fixture">
                             <td class="d-flex justify-content-between">
-                                <span>Week {{ item.number_of_week }}</span>
+                                <span>{{ item.number_of_week }}</span>
                                 <span>{{ item.home_team }}</span>
                                 <span>{{ item.home_team_score + ' - ' + item.away_team_score }}</span>
                                 <span>{{ item.away_team }}</span>
@@ -44,16 +44,15 @@ export default {
         prepare() {
             axios.get('/api/fixtures/prepare')
                 .then((response) => {
-                    this.getFixtures()
+                    this.fetchFixtures()
                 }).catch((error) => {
                 console.log(error)
             })
         },
-        getFixtures() {
+        fetchFixtures() {
             axios.get('/api/fixtures/fetch-group-by-week')
                 .then((response) => {
                     this.fixtures = response.data
-                    console.log(this.fixtures);
                 }).catch((error) => {
                 console.log(error)
             })

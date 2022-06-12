@@ -54,6 +54,12 @@ class FixtureController extends Controller
         return response()->json($fixture);
     }
 
+    public function fetchCountedFixturesWeek()
+    {
+        $totalFixtureWeek = $this->fixtureRepository->fetchCountedFixturesWeek();
+        return response()->json($totalFixtureWeek);
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */

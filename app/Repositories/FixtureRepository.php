@@ -29,14 +29,22 @@ class FixtureRepository implements FixtureInterface
      */
     public function fetchGroupedByWeek(): Collection
     {
-        return $this->model->get()->groupBy('week');
+        return $this->model->get()->groupBy('number_of_week');
+    }
+
+    /**
+     * @return int
+     */
+    public function fetchCountedFixturesWeek(): int
+    {
+        return $this->model->get()->groupBy('number_of_week')->count();
     }
 
     /**
      * @param int $numberOfWeek
-     * @return Fixture
+     * @return Collection
      */
-    public function fetchByWeek(int $numberOfWeek): Fixture
+    public function fetchByWeek(int $numberOfWeek): Collection
     {
         return $this->model->where('number_of_week', $numberOfWeek)->get();
     }
