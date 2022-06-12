@@ -10,9 +10,14 @@ interface FixtureInterface extends BaseInterface
 {
     /**
      * @param int $numberOfWeek
-     * @return Fixture
+     * @return Collection
      */
-    public function fetchByWeek(int $numberOfWeek): Fixture;
+    public function fetchByWeek(int $numberOfWeek): Collection;
+
+    /**
+     * @return Collection
+     */
+    public function fetchGroupedByWeek(): Collection ;
 
     /**
      * @return Collection
@@ -20,10 +25,15 @@ interface FixtureInterface extends BaseInterface
     public function fetchUnPlayedWeeks(): Collection;
 
     /**
+     * @return int
+     */
+    public function fetchCountedFixturesWeek(): int;
+
+    /**
      * @param array $fixture
      * @return void
      */
-    public function store(array $fixture): void;
+    public function storeArray(array $fixture): void;
 
     /**
      * @param Fixture $fixture

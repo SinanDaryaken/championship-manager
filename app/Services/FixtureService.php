@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\FixtureResource;
 use App\Models\Fixture;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 class FixtureService
 {
     /**
+     * PS: Round robin is not working correctly if you set odd number of total team its generating corrupted data
      * @param EloquentCollection $teams
      * @return array
      */

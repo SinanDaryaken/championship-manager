@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FixtureResource;
 use App\Models\Fixture;
 use App\Repositories\FixtureRepository;
 use App\Repositories\TeamRepository;
@@ -10,6 +11,11 @@ use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
+    /**
+     * @param TeamRepository $teamRepository
+     * @param FixtureRepository $fixtureRepository
+     * @param FixtureService $fixtureService
+     */
     public function __construct(
         protected TeamRepository    $teamRepository,
         protected FixtureRepository $fixtureRepository,
@@ -18,18 +24,45 @@ class FixtureController extends Controller
     {
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchAll()
     {
         $fixture = $this->fixtureRepository->fetchAll();
         return response()->json($fixture);
     }
 
+    public function fetchGroupByWeek()
+    {
+        $fixtures = $this->fixtureRepository->fetchGroupedByWeek();
+
+        $data = [];
+        foreach ($fixtures as $week => $fixture) {
+            $data[$week] = FixtureResource::collection($fixture);
+        }
+        return response()->json($data);
+    }
+
+    /**
+     * @param int $numberOfWeek
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchByWeek(int $numberOfWeek)
     {
         $fixture = $this->fixtureRepository->fetchByWeek($numberOfWeek);
         return response()->json($fixture);
     }
 
+    public function fetchCountedFixturesWeek()
+    {
+        $totalFixtureWeek = $this->fixtureRepository->fetchCountedFixturesWeek();
+        return response()->json($totalFixtureWeek);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function prepare()
     {
         $fixture = $this->fixtureRepository->fetchAll();
@@ -42,11 +75,16 @@ class FixtureController extends Controller
             return response()->json(['message' => 'At least 2 teams needed to build fixture']);
         }
         $fixture = $this->fixtureService->prepare($teams);
-        $this->fixtureRepository->store($fixture);
+        $this->fixtureRepository->storeArray($fixture);
 
         return response()->json(['message' => 'Fixture prepared']);
     }
 
+    /**
+     * @param Fixture $fixture
+     * @param Request $fixtureRequest
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Fixture $fixture, Request $fixtureRequest)
     {
         $data = $fixtureRequest->only('home_team_goals', 'away_team_goals');
@@ -54,21 +92,11 @@ class FixtureController extends Controller
         return response()->json(['data' => $fixture, 'message' => 'Match fixed']);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function refresh()
     {
-
-        $teams = $this->teamRepository->fetchAll();
-        $pointsByTeam = [];
-        foreach($teams as $team){
-            $pointsByTeam[] = $team->points;
-        }
-        dd($pointsByTeam);
-        $maxPoint = max($pointsByTeam);
-
-        $total = $teams->where('points', '>=', 9)->sum('points');
-        dd($total);
-
-        dd('STOP');
         $teams = $this->teamRepository->fetchAll();
         if ($teams->count() < 2) {
             return response()->json(['message' => 'At least 2 teams needed to build fixture']);

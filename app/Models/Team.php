@@ -36,23 +36,17 @@ class Team extends Model
         'lost',
         'goals_for',
         'goals_against',
+        'points',
         'created_at',
         'updated_at',
     ];
-    protected $appends = ['goal_average', 'points'];
+    protected $appends = ['goal_average'];
     public $timestamps = false;
 
     public function goalAverage(): Attribute
     {
         return new Attribute(
             get: fn($value) => $this->goals_for - $this->goals_against
-        );
-    }
-
-    public function points(): Attribute
-    {
-        return new Attribute(
-            get: fn($value) => ($this->won * 3) + $this->draw
         );
     }
 

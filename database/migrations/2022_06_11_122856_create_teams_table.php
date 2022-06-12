@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->unsignedTinyInteger('lost')->default(0);
             $table->unsignedTinyInteger('goals_for')->default(0);
             $table->unsignedTinyInteger('goals_against')->default(0);
+            $table->unsignedTinyInteger('points')->default(0);
         });
     }
 

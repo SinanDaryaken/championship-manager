@@ -23,12 +23,17 @@ class TeamRepository implements TeamInterface
         return $this->model->all();
     }
 
+    public function fetchAllAndOrdered(): Collection
+    {
+        return $this->model->orderByDesc('points')->get();
+    }
+
     /**
      * @return void
      */
     public function reset(): void
     {
-        $this->model->query()->update(['won' => 0, 'draw' => 0, 'lost' => 0, 'goals_for' => 0, 'goals_against' => 0]);
+        $this->model->query()->update(['points' => 0, 'won' => 0, 'draw' => 0, 'lost' => 0, 'goals_for' => 0, 'goals_against' => 0]);
     }
 
     /**
@@ -36,19 +41,19 @@ class TeamRepository implements TeamInterface
      * @param array $data
      * @return void
      */
-    public function update(object $match): void
+    public function updateByGame(object $match): void
     {
         $homeTeamGoals = $match->home_team_goals;
         $awayTeamGoals = $match->away_team_goals;
         if ($homeTeamGoals > $awayTeamGoals) {// home team wins
-            $homeTeam = ['won' => $match->homeTeam->won + 1, 'goals_for' => $match->homeTeam->goals_for + $homeTeamGoals, 'goals_against' => $match->homeTeam->goals_against + $awayTeamGoals];
+            $homeTeam = ['points' => $match->homeTeam->points + 3, 'won' => $match->homeTeam->won + 1, 'goals_for' => $match->homeTeam->goals_for + $homeTeamGoals, 'goals_against' => $match->homeTeam->goals_against + $awayTeamGoals];
             $awayTeam = ['lost' => $match->awayTeam->lost + 1, 'goals_for' => $match->awayTeam->goals_for + $awayTeamGoals, 'goals_against' => $match->awayTeam->goals_against + $homeTeamGoals];
         } else if ($homeTeamGoals < $awayTeamGoals) {//away team wins
             $homeTeam = ['lost' => $match->homeTeam->lost + 1, 'goals_for' => $match->homeTeam->goals_for + $homeTeamGoals, 'goals_against' => $match->homeTeam->goals_against + $awayTeamGoals];
-            $awayTeam = ['won' => $match->awayTeam->won + 1, 'goals_for' => $match->awayTeam->goals_for + $awayTeamGoals, 'goals_against' => $match->awayTeam->goals_against + $homeTeamGoals];
+            $awayTeam = ['points' => $match->awayTeam->points + 3, 'won' => $match->awayTeam->won + 1, 'goals_for' => $match->awayTeam->goals_for + $awayTeamGoals, 'goals_against' => $match->awayTeam->goals_against + $homeTeamGoals];
         } else {//draw
-            $homeTeam = ['draw' => $match->homeTeam->draw + 1, 'goals_for' => $match->homeTeam->goals_for + $homeTeamGoals, 'goals_against' => $match->homeTeam->goals_against + $awayTeamGoals];
-            $awayTeam = ['draw' => $match->awayTeam->draw + 1, 'goals_for' => $match->awayTeam->goals_for + $awayTeamGoals, 'goals_against' => $match->awayTeam->goals_against + $homeTeamGoals];
+            $homeTeam = ['points' => $match->homeTeam->points + 1, 'draw' => $match->homeTeam->draw + 1, 'goals_for' => $match->homeTeam->goals_for + $homeTeamGoals, 'goals_against' => $match->homeTeam->goals_against + $awayTeamGoals];
+            $awayTeam = ['points' => $match->awayTeam->points + 1, 'draw' => $match->awayTeam->draw + 1, 'goals_for' => $match->awayTeam->goals_for + $awayTeamGoals, 'goals_against' => $match->awayTeam->goals_against + $homeTeamGoals];
         }
         $match->homeTeam->update($homeTeam);
         $match->awayTeam->update($awayTeam);

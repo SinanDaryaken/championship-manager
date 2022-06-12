@@ -25,14 +25,33 @@ class FixtureRepository implements FixtureInterface
     }
 
     /**
-     * @param int $numberOfWeek
-     * @return Fixture
+     * @return Collection
      */
-    public function fetchByWeek(int $numberOfWeek): Fixture
+    public function fetchGroupedByWeek(): Collection
+    {
+        return $this->model->get()->groupBy('number_of_week');
+    }
+
+    /**
+     * @return int
+     */
+    public function fetchCountedFixturesWeek(): int
+    {
+        return $this->model->get()->groupBy('number_of_week')->count();
+    }
+
+    /**
+     * @param int $numberOfWeek
+     * @return Collection
+     */
+    public function fetchByWeek(int $numberOfWeek): Collection
     {
         return $this->model->where('number_of_week', $numberOfWeek)->get();
     }
 
+    /**
+     * @return Collection
+     */
     public function fetchUnPlayedWeeks(): Collection
     {
         return $this->model->where('is_played', 0)->get();
@@ -42,7 +61,7 @@ class FixtureRepository implements FixtureInterface
      * @param array $fixture
      * @return void
      */
-    public function store(array $fixture): void
+    public function storeArray(array $fixture): void
     {
         foreach ($fixture as $match) {
             foreach ($match as $game) {
