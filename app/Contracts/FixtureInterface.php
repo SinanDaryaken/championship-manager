@@ -17,6 +17,11 @@ interface FixtureInterface extends BaseInterface
     /**
      * @return Collection
      */
+    public function fetchGroupedByWeek(): Collection ;
+
+    /**
+     * @return Collection
+     */
     public function fetchUnPlayedWeeks(): Collection;
 
     /**

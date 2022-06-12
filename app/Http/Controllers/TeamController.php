@@ -8,15 +8,21 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
+    /**
+     * @param TeamRepository $teamRepository
+     */
     public function __construct(
         protected TeamRepository $teamRepository
     )
     {
     }
 
-    public function fetchAll()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchAllAndOrdered ()
     {
-        $team = $this->teamRepository->fetchAll();
+        $team = $this->teamRepository->fetchAllAndOrdered();
         return response()->json($team);
     }
 }

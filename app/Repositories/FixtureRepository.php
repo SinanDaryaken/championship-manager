@@ -25,6 +25,14 @@ class FixtureRepository implements FixtureInterface
     }
 
     /**
+     * @return Collection
+     */
+    public function fetchGroupedByWeek(): Collection
+    {
+        return $this->model->get()->groupBy('week');
+    }
+
+    /**
      * @param int $numberOfWeek
      * @return Fixture
      */
@@ -33,6 +41,9 @@ class FixtureRepository implements FixtureInterface
         return $this->model->where('number_of_week', $numberOfWeek)->get();
     }
 
+    /**
+     * @return Collection
+     */
     public function fetchUnPlayedWeeks(): Collection
     {
         return $this->model->where('is_played', 0)->get();
