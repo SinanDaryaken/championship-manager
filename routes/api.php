@@ -1,19 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\FixtureController;
+use \App\Http\Controllers\GameController;
+use \App\Http\Controllers\TeamController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::controller(TeamController::class)->prefix('teams')->group(function () {
+    Route::get('fetch-all', 'fetchAll');
+});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::apiResource('fixtures', TeamController::class)->only('update');;
+Route::controller(FixtureController::class)->prefix('fixtures')->group(function () {
+    Route::get('fetch-all', 'fetchAll');
+    Route::get('fetch-by-week/{number_of_week}', 'fetchByWeek');
+    Route::get('prepare', 'prepare');
+    Route::get('refresh', 'refresh');
+});
+
+Route::controller(GameController::class)->prefix('games')->group(function () {
+    Route::get('complete-game', 'completeGame');
+    Route::get('play-game-by-week/{number_of_week}', 'playGameByWeek');
 });
